@@ -5530,6 +5530,7 @@ T.addText('rus', {
       dateAfter: 'Дата добавления (после)',
       blocked: 'Заблокирован',
       verified: 'Подтвержден',
+      org: 'Организация',
       placeholder: {
         role: 'Выберите рольпользователя',
         status: 'Выберите статус'
@@ -12248,7 +12249,7 @@ var View$1 = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       element.classList.add('scanex-forestry-admin-users');
-      element.innerHTML = "<div class=\"filter\">\n            <div class=\"name\">\n                <input type=\"text\" placeholder=\"".concat(translate$5('admin.users.name'), "\">\n                <button class=\"search\">").concat(translate$5('admin.users.search'), "</button>\n            </div>\n            <div class=\"role-date-status\">\n                <div class=\"role\">\n                    <label>").concat(translate$5('admin.users.userRole'), "</label>\n                    <select></select>\n                </div>\n                <div class=\"date\">\n                    <label>").concat(translate$5('admin.users.dateAfter'), "</label>\n                    <input type=\"text\">\n                </div>\n                <div class=\"status\">                \n                    <label>").concat(translate$5('admin.users.status'), "</label>\n                    <select>\n                        <option value=\"\"></option>\n                        <option value=\"blocked\">").concat(translate$5('admin.users.blocked'), "</option>\n                        <option value=\"verified\">").concat(translate$5('admin.users.verified'), "</option>\n                    </select>\n                </div>\n            </div>\n        </div>        \n        <div class=\"content\"></div>        \n        <div class=\"pager\"></div>");
+      element.innerHTML = "<div class=\"filter\">\n            <div class=\"name\">\n                <input type=\"text\" placeholder=\"".concat(translate$5('admin.users.name'), "\">\n                <button class=\"search\">").concat(translate$5('admin.users.search'), "</button>\n            </div>\n            <div class=\"role-date-status\">\n                <div class=\"role\">\n                    <label>").concat(translate$5('admin.users.userRole'), "</label>\n                    <select></select>\n                </div>\n                <div class=\"date\">\n                    <label>").concat(translate$5('admin.users.dateAfter'), "</label>\n                    <input type=\"text\">\n                </div>                \n                <div class=\"status\">                \n                    <label>").concat(translate$5('admin.users.status'), "</label>\n                    <select>\n                        <option value=\"\"></option>\n                        <option value=\"blocked\">").concat(translate$5('admin.users.blocked'), "</option>\n                        <option value=\"verified\">").concat(translate$5('admin.users.verified'), "</option>\n                    </select>\n                </div>                \n            </div>\n        </div>        \n        <div class=\"content\"></div>        \n        <div class=\"pager\"></div>");
       var btnSearch = element.querySelector('.search');
       btnSearch.addEventListener('click', function (e) {
         e.stopPropagation();
@@ -12326,13 +12327,14 @@ var View$1 = /*#__PURE__*/function (_Component) {
     set: function set(users) {
       var _this4 = this;
 
-      this._content.innerHTML = "<table cellpadding=\"0\" cellspacing=\"0\">\n            <thead>\n                <tr>\n                    <th>".concat(translate$5('admin.users.id'), "</th>\n                    <th>").concat(translate$5('admin.users.name'), "</th>\n                    <th>").concat(translate$5('admin.users.date'), "</th>\n                    <th>").concat(translate$5('admin.users.status'), "</th>\n                    <th>").concat(translate$5('admin.users.role'), "</th>\n                </tr>\n            </thead>\n            <tbody>\n            ").concat(users.map(function (_ref2) {
+      this._content.innerHTML = "<table cellpadding=\"0\" cellspacing=\"0\">\n            <thead>\n                <tr>\n                    <th>".concat(translate$5('admin.users.id'), "</th>\n                    <th>").concat(translate$5('admin.users.name'), "</th>\n                    <th>").concat(translate$5('admin.users.date'), "</th>\n                    <th>").concat(translate$5('admin.users.status'), "</th>\n                    <th>").concat(translate$5('admin.users.org'), "</th>\n                    <th>").concat(translate$5('admin.users.role'), "</th>                    \n                </tr>\n            </thead>\n            <tbody>\n            ").concat(users.map(function (_ref2) {
         var userID = _ref2.userID,
             userName = _ref2.userName,
             created = _ref2.created,
             isLock = _ref2.isLock,
+            organizationName = _ref2.organizationName,
             roleList = _ref2.roleList;
-        return "<tr data-id=\"".concat(userID, "\">\n                    <td>").concat(userID, "</td>\n                    <td>").concat(userName, "</td>\n                    <td>").concat(format_date_iso(created), "</td>\n                    <td>").concat(translate$5(isLock ? 'admin.users.blocked' : 'admin.users.verified'), "</td>\n                    <td>").concat(roleList.map(function (id) {
+        return "<tr data-id=\"".concat(userID, "\">\n                    <td>").concat(userID, "</td>\n                    <td>").concat(userName, "</td>\n                    <td>").concat(format_date_iso(created), "</td>\n                    <td>").concat(translate$5(isLock ? 'admin.users.blocked' : 'admin.users.verified'), "</td>\n                    <td>").concat(organizationName, "</td>\n                    <td>").concat(roleList.map(function (id) {
           return _this4._roles[id];
         }).join(','), "</td>\n                </tr>");
       }).join(''), "\n            </tbody>\n        </table>");
@@ -12503,7 +12505,10 @@ T.addText('rus', {
       locked: 'Заблокировать',
       save: 'Сохранить',
       cancel: 'Отмена',
-      ok: 'Данные сохранены'
+      ok: 'Данные сохранены',
+      org: 'Организация пользователя',
+      ogrn: 'ОГРН',
+      snils: 'СНИЛС'
     }
   }
 });
@@ -12531,7 +12536,7 @@ var User = /*#__PURE__*/function (_Dialog) {
     _this._element.classList.add('scanex-forestry-admin-user');
 
     _this._locked = false;
-    _this.content.innerHTML = "<table  cellpadding=\"0\" cellspacing=\"0\">\n            <tr>\n                <td>                    \n                    <div>\n                        <i class=\"scanex-forestry-admin-icon user\"></i>\n                    </div>\n                    <ul class=\"roles\"></ul>\n                </td>\n                <td>\n                    <div class=\"locked\">\n                        <label>".concat(translate$6('admin.user.locked'), "</label>\n                        <i class=\"scanex-forestry-admin-icon box\"></i>\n                    </div>\n                    <table cellpadding=\"0\" cellspacing=\"0\" class=\"account-info\">\n                        <tr class=\"name\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.name'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                        <tr class=\"dob\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.dob'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                        <tr class=\"email\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.email'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                        <tr class=\"itn\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.itn'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                        <tr class=\"phone\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.phone'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                    </table>\n                </td>\n            </tr>            \n        </table>");
+    _this.content.innerHTML = "<table  cellpadding=\"0\" cellspacing=\"0\">\n            <tr>\n                <td>                    \n                    <div>\n                        <i class=\"scanex-forestry-admin-icon user\"></i>\n                    </div>\n                    <ul class=\"roles\"></ul>\n                </td>\n                <td>\n                    <div class=\"locked\">\n                        <label>".concat(translate$6('admin.user.locked'), "</label>\n                        <i class=\"scanex-forestry-admin-icon box\"></i>\n                    </div>\n                    <table cellpadding=\"0\" cellspacing=\"0\" class=\"account-info\">\n                        <tr class=\"name\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.name'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                        <tr class=\"dob\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.dob'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                        <tr class=\"email\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.email'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>                        \n                        <tr class=\"phone\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.phone'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                        <tr class=\"snils\">\n                            <td class=\"label\">\n                                <label>").concat(translate$6('admin.user.snils'), "</label>\n                            </td>\n                            <td class=\"value\">\n                                <label></label>\n                            </td>\n                        </tr>\n                    </table>                    \n                </td>\n            </tr>            \n        </table>\n        <div class=\"organization\">\n            <div class=\"org\">\n                <div class=\"label\">").concat(translate$6('admin.user.org'), "</div>\n                <div class=\"value\"></div>\n            </div>\n            <div class=\"itn-ogrn\">\n                <div class=\"itn\">\n                    <div class=\"label\">").concat(translate$6('admin.user.itn'), "</div>\n                    <div class=\"value\"></div>\n                </div>\n                <div class=\"ogrn\">\n                    <div class=\"label\">").concat(translate$6('admin.user.ogrn'), "</div>\n                    <div class=\"value\"></div>\n                </div>\n            </div>\n        </div>");
 
     var btnBlock = _this.content.querySelector('.locked');
 
@@ -12543,8 +12548,11 @@ var User = /*#__PURE__*/function (_Dialog) {
     _this._name = _this.content.querySelector('.name .value label');
     _this._dob = _this.content.querySelector('.dob .value label');
     _this._email = _this.content.querySelector('.email .value label');
-    _this._itn = _this.content.querySelector('.itn .value label');
+    _this._snils = _this.content.querySelector('.snils .value label');
+    _this._itn = _this.content.querySelector('.itn .value');
     _this._phone = _this.content.querySelector('.phone .value label');
+    _this._org = _this.content.querySelector('.org .value');
+    _this._ogrn = _this.content.querySelector('.ogrn .value');
     _this.footer.innerHTML = "<button class=\"save\">".concat(translate$6('admin.user.save'), "</button>\n        <button class=\"cancel\">").concat(translate$6('admin.user.cancel'), "</button>");
 
     var btnSave = _this.footer.querySelector('.save');
@@ -12612,6 +12620,21 @@ var User = /*#__PURE__*/function (_Dialog) {
     key: "itn",
     set: function set(itn) {
       this._itn.innerText = itn;
+    }
+  }, {
+    key: "ogrn",
+    set: function set(ogrn) {
+      this._ogrn.innerText = ogrn;
+    }
+  }, {
+    key: "org",
+    set: function set(org) {
+      this._org.innerText = org;
+    }
+  }, {
+    key: "snils",
+    set: function set(snils) {
+      this._snils.innerText = snils;
     }
   }, {
     key: "phone",
@@ -12698,7 +12721,7 @@ var User$1 = /*#__PURE__*/function (_Controller) {
       var _open = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id) {
         var _this2 = this;
 
-        var rs, roles, data, _data$userData, birthDate, email, firstName, middleName, lastName, inn, isLock, view;
+        var rs, roles, data, _data$userData, birthDate, email, firstName, middleName, lastName, isLock, snils, _data$userData$busine, fullName, name, ogrn, inn, view;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -12734,7 +12757,7 @@ var User$1 = /*#__PURE__*/function (_Controller) {
                 data = _context2.sent;
 
                 if (data && data.userData) {
-                  _data$userData = data.userData, birthDate = _data$userData.birthDate, email = _data$userData.email, firstName = _data$userData.firstName, middleName = _data$userData.middleName, lastName = _data$userData.lastName, inn = _data$userData.inn, isLock = _data$userData.isLock;
+                  _data$userData = data.userData, birthDate = _data$userData.birthDate, email = _data$userData.email, firstName = _data$userData.firstName, middleName = _data$userData.middleName, lastName = _data$userData.lastName, isLock = _data$userData.isLock, snils = _data$userData.snils, _data$userData$busine = _data$userData.businessEntity, fullName = _data$userData$busine.fullName, name = _data$userData$busine.name, ogrn = _data$userData$busine.ogrn, inn = _data$userData$busine.inn;
                   view = new User(id);
                   view.on('close', function () {
                     view.destroy();
@@ -12786,6 +12809,9 @@ var User$1 = /*#__PURE__*/function (_Controller) {
                   view.birthDate = new Date(birthDate).toLocaleDateString();
                   view.email = email;
                   view.itn = inn;
+                  view.org = fullName;
+                  view.snils = snils;
+                  view.ogrn = ogrn;
                   view.locked = isLock;
 
                   if (data.userRoles) {
