@@ -12392,7 +12392,7 @@ var Users = /*#__PURE__*/function (_Controller) {
     });
     _this._path = path;
     _this._container = container;
-    _this._pageSize = 25;
+    _this._pageSize = 9;
     return _this;
   }
 
