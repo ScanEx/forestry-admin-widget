@@ -28,20 +28,21 @@
 	import AdminUI from './forestry-admin.js';
 
 	window.addEventListener('load', async () => {		
-        	// получение контейнера
-	        let container = document.getElementById('admin');
+        // получение контейнера
+        let container = document.getElementById('admin');
         
-        	// инициализация
+        // инициализация
 		let admin = new AdminUI(container);
 		
 		admin.addEventListener('loading:start', () => {
-		// показать начало длительной операции
+			// показать начало длительной операции
 		});
+
 		admin.addEventListener('loading:stop', () => {
-		// завершить длительную операцию
+			// завершить длительную операцию
 		});
         
-        	// показать список ролей и разрешений
-	        await admin.roles();		
+        // показать список ролей и разрешений
+        await admin.roles();		
 	});
 ```

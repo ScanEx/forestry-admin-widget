@@ -5201,12 +5201,14 @@ var Controller = /*#__PURE__*/function (_EventTarget) {
   function Controller(_ref) {
     var _this;
 
-    var notify = _ref.notify;
+    var notify = _ref.notify,
+        loading = _ref.loading;
 
     _classCallCheck(this, Controller);
 
     _this = _super.call(this);
     _this._notify = notify;
+    _this._loading = loading;
     return _this;
   }
 
@@ -5256,16 +5258,12 @@ var Controller = /*#__PURE__*/function (_EventTarget) {
   }, {
     key: "_start",
     value: function _start() {
-      var event = document.createEvent('Event');
-      event.initEvent('load:start', false, false);
-      this.dispatchEvent(event);
+      this._loading.start();
     }
   }, {
     key: "_stop",
     value: function _stop() {
-      var event = document.createEvent('Event');
-      event.initEvent('load:stop', false, false);
-      this.dispatchEvent(event);
+      this._loading.stop();
     }
   }, {
     key: "httpPost",
@@ -5365,12 +5363,14 @@ var Roles = /*#__PURE__*/function (_Controller) {
 
     var container = _ref.container,
         notify = _ref.notify,
+        loading = _ref.loading,
         path = _ref.path;
 
     _classCallCheck(this, Roles);
 
     _this = _super.call(this, {
-      notify: notify
+      notify: notify,
+      loading: loading
     });
     _this._path = path;
     _this._container = container;
@@ -12381,12 +12381,14 @@ var Users = /*#__PURE__*/function (_Controller) {
 
     var container = _ref.container,
         notify = _ref.notify,
+        loading = _ref.loading,
         path = _ref.path;
 
     _classCallCheck(this, Users);
 
     _this = _super.call(this, {
-      notify: notify
+      notify: notify,
+      loading: loading
     });
     _this._path = path;
     _this._container = container;
@@ -12703,12 +12705,14 @@ var User$1 = /*#__PURE__*/function (_Controller) {
 
     var container = _ref.container,
         notify = _ref.notify,
+        loading = _ref.loading,
         path = _ref.path;
 
     _classCallCheck(this, User$1);
 
     _this = _super.call(this, {
-      notify: notify
+      notify: notify,
+      loading: loading
     });
     _this._path = path;
     _this._container = container;
@@ -15717,9 +15721,43 @@ T.addText('rus', {
   }
 });
 
-var Admin = /*#__PURE__*/function () {
+var Loading = /*#__PURE__*/function (_EventTarget) {
+  _inherits(Loading, _EventTarget);
+
+  var _super = _createSuper(Loading);
+
+  function Loading() {
+    _classCallCheck(this, Loading);
+
+    return _super.call(this);
+  }
+
+  _createClass(Loading, [{
+    key: "start",
+    value: function start() {
+      var event = document.createEvent('Event');
+      event.initEvent('loading:start', false, false);
+      this.dispatchEvent(event);
+    }
+  }, {
+    key: "stop",
+    value: function stop() {
+      var event = document.createEvent('Event');
+      event.initEvent('loading:stop', false, false);
+      this.dispatchEvent(event);
+    }
+  }]);
+
+  return Loading;
+}(EventTarget);
+
+var Admin = /*#__PURE__*/function (_EventTarget) {
+  _inherits(Admin, _EventTarget);
+
+  var _super = _createSuper(Admin);
+
   function Admin(container) {
-    var _this = this;
+    var _this;
 
     var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
       path: '/adm'
@@ -15728,28 +15766,48 @@ var Admin = /*#__PURE__*/function () {
 
     _classCallCheck(this, Admin);
 
-    this._container = container;
+    _this = _super.call(this);
+    _this._container = container;
 
-    this._container.classList.add('scanex-forestry-admin');
+    _this._container.classList.add('scanex-forestry-admin');
 
-    this._notify = new notify_1();
-    this._roles = new Roles({
-      container: this._container,
-      notify: this._notify,
-      path: path
-    });
-    this._users = new Users({
-      container: this._container,
-      notify: this._notify,
-      path: path
-    });
-    this._user = new User$1({
-      container: this._container,
-      notify: this._notify,
-      path: path
+    _this._notify = new notify_1();
+    _this._loading = new Loading();
+
+    _this._loading.on('loading:start', function () {
+      var event = document.createEvent('Event');
+      event.initEvent('loading:start', false, false);
+
+      _this.dispatchEvent(event);
     });
 
-    this._user.on('updated', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    _this._loading.on('loading:stop', function () {
+      var event = document.createEvent('Event');
+      event.initEvent('loading:stop', false, false);
+
+      _this.dispatchEvent(event);
+    });
+
+    _this._roles = new Roles({
+      container: _this._container,
+      notify: _this._notify,
+      loading: _this._loading,
+      path: path
+    });
+    _this._users = new Users({
+      container: _this._container,
+      notify: _this._notify,
+      loading: _this._loading,
+      path: path
+    });
+    _this._user = new User$1({
+      container: _this._container,
+      notify: _this._notify,
+      loading: _this._loading,
+      path: path
+    });
+
+    _this._user.on('updated', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -15765,7 +15823,7 @@ var Admin = /*#__PURE__*/function () {
       }, _callee);
     })));
 
-    this._users.on('click', /*#__PURE__*/function () {
+    _this._users.on('click', /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
         var id;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -15788,6 +15846,8 @@ var Admin = /*#__PURE__*/function () {
         return _ref3.apply(this, arguments);
       };
     }());
+
+    return _this;
   }
 
   _createClass(Admin, [{
@@ -15848,7 +15908,7 @@ var Admin = /*#__PURE__*/function () {
   }]);
 
   return Admin;
-}();
+}(EventTarget);
 
 module.exports = Admin;
 //# sourceMappingURL=forestry-admin.js.map
