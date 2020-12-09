@@ -12421,24 +12421,40 @@ var Users = /*#__PURE__*/function (_Controller) {
 
                   this._view.on('change', /*#__PURE__*/function () {
                     var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-                      var _e$detail, name, role, date, status, page, filtered, data, count, userList;
+                      var _e$detail, name, role, date, status, page, filtered, opts, data, count, userList;
 
                       return regeneratorRuntime.wrap(function _callee$(_context) {
                         while (1) {
                           switch (_context.prev = _context.next) {
                             case 0:
                               _e$detail = e.detail, name = _e$detail.name, role = _e$detail.role, date = _e$detail.date, status = _e$detail.status, page = _e$detail.page, filtered = _e$detail.filtered;
-                              _context.next = 3;
-                              return _this2.httpGet("".concat(_this2._path, "/UserManager/GetUserList"), {
+                              opts = {
                                 StartPoint: (page - 1) * _this2._pageSize + 1,
                                 SizeList: _this2._pageSize,
                                 FullName: encodeURIComponent(name) || '',
                                 RoleId: role || '',
-                                IsLocked: status === 'blocked',
                                 CreatedAfter: date || ''
-                              });
+                              };
+                              _context.t0 = status;
+                              _context.next = _context.t0 === 'blocked' ? 5 : _context.t0 === 'verified' ? 7 : 9;
+                              break;
 
-                            case 3:
+                            case 5:
+                              opts.IsLocked = true;
+                              return _context.abrupt("break", 10);
+
+                            case 7:
+                              opts.IsLocked = false;
+                              return _context.abrupt("break", 10);
+
+                            case 9:
+                              return _context.abrupt("break", 10);
+
+                            case 10:
+                              _context.next = 12;
+                              return _this2.httpGet("".concat(_this2._path, "/UserManager/GetUserList"), opts);
+
+                            case 12:
                               data = _context.sent;
 
                               if (data) {
@@ -12451,7 +12467,7 @@ var Users = /*#__PURE__*/function (_Controller) {
                                 }
                               }
 
-                            case 5:
+                            case 14:
                             case "end":
                               return _context.stop();
                           }
