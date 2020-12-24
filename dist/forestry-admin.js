@@ -5069,7 +5069,7 @@ var View = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       element.classList.add('scanex-forestry-admin-permissions');
-      element.innerHTML = "<div>\n            <label class=\"label-roles\">".concat(translate$2('admin.roles.role'), "</label>\n            <select class=\"roles\"></select>\n        </div>\n        <div class=\"content\">\n            <label class=\"label-content\">").concat(translate$2('admin.roles.permissions'), "</label>\n            <div class=\"permissions\"></div>\n        </div>\n        <div class=\"footer\">\n            <div class=\"pager\"></div>\n            <button class=\"save\">").concat(translate$2('admin.roles.save'), "</button>\n        </div>");
+      element.innerHTML = "<div>\n            <label class=\"label-roles\">".concat(translate$2('admin.roles.role'), "</label>\n            <select class=\"roles\"></select>\n        </div>\n        <label class=\"label-content\">").concat(translate$2('admin.roles.permissions'), "</label>\n        <div class=\"content\">            \n            <div class=\"permissions\"></div>\n        </div>\n        <div class=\"footer\">\n            <div class=\"pager\"></div>\n            <button class=\"save\">").concat(translate$2('admin.roles.save'), "</button>\n        </div>");
       this._roles = element.querySelector('.roles');
 
       this._roles.addEventListener('change', this._changeRole.bind(this));
@@ -5397,7 +5397,7 @@ var Roles = /*#__PURE__*/function (_Controller) {
                 if (rs && rs.rolesList) {
                   this._container.innerHTML = '';
                   this._view = new View(this._container, {
-                    pageSize: 20
+                    pageSize: 12
                   });
 
                   this._view.on('role:change', /*#__PURE__*/function () {
@@ -5532,7 +5532,7 @@ T.addText('rus', {
       verified: 'Подтвержден',
       org: 'Организация',
       placeholder: {
-        role: 'Выберите рольпользователя',
+        role: 'Выберите роль пользователя',
         status: 'Выберите статус'
       }
     }
@@ -12350,7 +12350,7 @@ var View$1 = /*#__PURE__*/function (_Component) {
           row.addEventListener('click', function (e) {
             e.stopPropagation();
             var event = document.createEvent('Event');
-            event.initEvent('user:select', false, false);
+            event.initEvent('select', false, false);
             event.detail = row.getAttribute('data-id');
 
             _this4.dispatchEvent(event);
@@ -12480,7 +12480,7 @@ var Users = /*#__PURE__*/function (_Controller) {
                     };
                   }());
 
-                  this._view.on('user:select', function (e) {
+                  this._view.on('select', function (e) {
                     var event = document.createEvent('Event');
                     event.initEvent('click', false, false);
                     event.detail = e.detail;
@@ -12859,6 +12859,585 @@ var User$1 = /*#__PURE__*/function (_Controller) {
   }]);
 
   return User$1;
+}(Controller);
+
+T.addText('rus', {
+  admin: {
+    organizations: {
+      search: 'Поиск',
+      id: 'Идентификатор',
+      name: 'Организация',
+      organizationName: 'Наименование организации',
+      inn: 'ИНН',
+      ogrn: 'ОГРН',
+      role: 'Роль',
+      okpf: 'Код ОКПФ',
+      org: 'Организация',
+      placeholder: {
+        role: 'Выберите роль организации'
+      }
+    }
+  }
+});
+
+var translate$8 = T.getText.bind(T);
+
+var View$2 = /*#__PURE__*/function (_Component) {
+  _inherits(View, _Component);
+
+  var _super = _createSuper(View);
+
+  function View(container, _ref) {
+    var _this;
+
+    var pageSize = _ref.pageSize;
+
+    _classCallCheck(this, View);
+
+    _this = _super.call(this, container);
+    _this._pageSize = pageSize;
+    return _this;
+  }
+
+  _createClass(View, [{
+    key: "_render",
+    value: function _render(element) {
+      var _this2 = this;
+
+      element.classList.add('scanex-forestry-admin-organizations');
+      element.innerHTML = "<div class=\"filter\">\n            <div class=\"name\">\n                <i class=\"scanex-forestry-admin-icon search\"></i>\n                <input type=\"text\" placeholder=\"".concat(translate$8('admin.organizations.organizationName'), "\">\n                <button>").concat(translate$8('admin.organizations.search'), "</button>\n            </div>\n            <div class=\"role-inn-ogrn\">\n                <div class=\"role\">\n                    <label>").concat(translate$8('admin.organizations.role'), "</label>                    \n                    <select></select>                    \n                </div>\n                <div class=\"inn\">\n                    <label>").concat(translate$8('admin.organizations.inn'), "</label>\n                    <input type=\"text\">\n                </div>                \n                <div class=\"ogrn\">                \n                    <label>").concat(translate$8('admin.organizations.ogrn'), "</label>\n                    <input type=\"text\">\n                </div>                \n            </div>\n        </div>        \n        <div class=\"content\">\n            <div class=\"header\">\n                <div data-id=\"id\">").concat(translate$8('admin.organizations.id'), "</div>\n                <div data-id=\"okpf\">").concat(translate$8('admin.organizations.okpf'), "</div>\n                <div data-id=\"name\">").concat(translate$8('admin.organizations.name'), "</div>\n                <div data-id=\"role\">").concat(translate$8('admin.organizations.role'), "</div>\n                <div data-id=\"inn\">").concat(translate$8('admin.organizations.inn'), "</div>\n                <div data-id=\"ogrn\">").concat(translate$8('admin.organizations.ogrn'), "</div>\n            </div>\n            <div class=\"body\"></div>\n        </div>        \n        <div class=\"pager\"></div>");
+      var btnSearch = element.querySelector('.name button');
+      btnSearch.addEventListener('click', function (e) {
+        e.stopPropagation();
+
+        _this2._change(true);
+      });
+      this._name = element.querySelector('.name input');
+      this._rolesContainer = element.querySelector('.role select');
+      this._body = element.querySelector('.content .body');
+      this._pager = new Pager(element.querySelector('.pager'));
+
+      this._pager.addEventListener('change', function () {
+        _this2._change(false);
+      });
+
+      this._inn = element.querySelector('.inn input');
+      this._ogrn = element.querySelector('.ogrn input');
+      this._pager.pages = 1;
+    }
+  }, {
+    key: "_change",
+    value: function _change(filtered) {
+      var event = document.createEvent('Event');
+      event.initEvent('change', false, false);
+      var name = this._name.value;
+      var role = this._rolesContainer.value;
+      var inn = this._inn.value;
+      var ogrn = this._ogrn.value;
+      var page = this._pager.page;
+      event.detail = {
+        name: name,
+        role: role,
+        inn: inn,
+        ogrn: ogrn,
+        page: page,
+        filtered: filtered
+      };
+      this.dispatchEvent(event);
+    }
+  }, {
+    key: "page",
+    set: function set(page) {
+      this._pager.page = page;
+    }
+  }, {
+    key: "count",
+    set: function set(count) {
+      this._pager.pages = count && Math.ceil(count / this._pageSize) || 1;
+    }
+  }, {
+    key: "roles",
+    set: function set(roles) {
+      var _this3 = this;
+
+      this._roles = roles;
+      this._rolesContainer.innerHTML = "\n            <option value=\"\"></option>\n            ".concat(Object.keys(this._roles).map(function (id) {
+        return "<option value=\"".concat(id, "\">").concat(_this3._roles[id], "</option>");
+      }).join(''));
+    }
+  }, {
+    key: "organizations",
+    set: function set(organizations) {
+      var _this4 = this;
+
+      this._body.innerHTML = organizations.map(function (_ref2) {
+        var address = _ref2.address,
+            fullName = _ref2.fullName,
+            id = _ref2.id,
+            inn = _ref2.inn,
+            number = _ref2.number,
+            ogrn = _ref2.ogrn,
+            okpof = _ref2.okpof,
+            phone = _ref2.phone,
+            roleID = _ref2.roleID;
+        return "<div class=\"row\" data-id=\"".concat(id || '-', "\">\n                <div data-id=\"id\">").concat(number || '-', "</div>\n                <div data-id=\"okpf\">").concat(okpof || '-', "</div>\n                <div data-id=\"name\">").concat(fullName || '-', "</div>                    \n                <div data-id=\"role\">").concat(_this4._roles[roleID] || '-', "</div>\n                <div data-id=\"inn\">").concat(inn || '-', "</div>\n                <div data-id=\"ogrn\">").concat(ogrn || '-', "</div>\n            </div>");
+      }).join('');
+
+      var rows = this._body.querySelectorAll('.row');
+
+      var _iterator = _createForOfIteratorHelper(rows),
+          _step;
+
+      try {
+        var _loop = function _loop() {
+          var row = _step.value;
+          row.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var event = document.createEvent('Event');
+            event.initEvent('select', false, false);
+            event.detail = row.getAttribute('data-id');
+
+            _this4.dispatchEvent(event);
+          });
+        };
+
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          _loop();
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+  }]);
+
+  return View;
+}(Component);
+
+var Organizations = /*#__PURE__*/function (_Controller) {
+  _inherits(Organizations, _Controller);
+
+  var _super = _createSuper(Organizations);
+
+  function Organizations(_ref) {
+    var _this;
+
+    var container = _ref.container,
+        notify = _ref.notify,
+        loading = _ref.loading,
+        path = _ref.path;
+
+    _classCallCheck(this, Organizations);
+
+    _this = _super.call(this, {
+      notify: notify,
+      loading: loading
+    });
+    _this._path = path;
+    _this._container = container;
+    _this._pageSize = 9;
+    return _this;
+  }
+
+  _createClass(Organizations, [{
+    key: "open",
+    value: function () {
+      var _open = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _this2 = this;
+
+        var rs;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.httpGet("".concat(this._path, "/UserPermissionManager/GetRolesList"));
+
+              case 2:
+                rs = _context2.sent;
+
+                if (rs && rs.rolesList) {
+                  this._container.innerHTML = '';
+                  this._view = new View$2(this._container, {
+                    pageSize: this._pageSize
+                  });
+
+                  this._view.on('change', /*#__PURE__*/function () {
+                    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+                      var _e$detail, name, role, inn, ogrn, page, filtered, opts, data, count, bussinesEntityList;
+
+                      return regeneratorRuntime.wrap(function _callee$(_context) {
+                        while (1) {
+                          switch (_context.prev = _context.next) {
+                            case 0:
+                              _e$detail = e.detail, name = _e$detail.name, role = _e$detail.role, inn = _e$detail.inn, ogrn = _e$detail.ogrn, page = _e$detail.page, filtered = _e$detail.filtered;
+                              opts = {
+                                StartPoint: (page - 1) * _this2._pageSize + 1,
+                                SizeList: _this2._pageSize,
+                                FullName: encodeURIComponent(name) || '',
+                                RoleId: role || '',
+                                Inn: inn || '',
+                                Ogrn: ogrn || ''
+                              };
+                              _context.next = 4;
+                              return _this2.httpGet("".concat(_this2._path, "/BussinessEntityManager/GetBussinesEntityList"), opts);
+
+                            case 4:
+                              data = _context.sent;
+
+                              if (data) {
+                                count = data.count, bussinesEntityList = data.bussinesEntityList;
+                                _this2._view.count = count;
+                                _this2._view.organizations = bussinesEntityList;
+
+                                if (filtered) {
+                                  _this2._view.page = 1;
+                                }
+                              }
+
+                            case 6:
+                            case "end":
+                              return _context.stop();
+                          }
+                        }
+                      }, _callee);
+                    }));
+
+                    return function (_x) {
+                      return _ref2.apply(this, arguments);
+                    };
+                  }());
+
+                  this._view.on('select', function (e) {
+                    var event = document.createEvent('Event');
+                    event.initEvent('click', false, false);
+                    event.detail = e.detail;
+
+                    _this2.dispatchEvent(event);
+                  });
+
+                  this._view.page = 1;
+                  this._view.roles = rs.rolesList;
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function open() {
+        return _open.apply(this, arguments);
+      }
+
+      return open;
+    }()
+  }]);
+
+  return Organizations;
+}(Controller);
+
+T.addText('rus', {
+  admin: {
+    organization: {
+      address: 'Адрес',
+      cancel: 'Отмена',
+      inn: 'ИНН',
+      name: 'Полное наименование',
+      ogrn: 'ОГРН',
+      ok: 'Данные сохранены',
+      okpf: 'Код ОКПФ',
+      org: 'Организация пользователя',
+      save: 'Сохранить',
+      title: 'Организация'
+    }
+  }
+});
+
+var translate$9 = T.getText.bind(T);
+
+var Organization = /*#__PURE__*/function (_Dialog) {
+  _inherits(Organization, _Dialog);
+
+  var _super = _createSuper(Organization);
+
+  function Organization(id) {
+    var _this;
+
+    _classCallCheck(this, Organization);
+
+    _this = _super.call(this, {
+      title: translate$9('admin.organization.title'),
+      modal: true,
+      top: 200,
+      left: 400
+    });
+    _this._bussinesEntityID = id;
+
+    _this._element.classList.add('scanex-forestry-admin-organization');
+
+    _this.content.innerHTML = "<div class=\"logo\">\n                <i class=\"scanex-forestry-admin-icon organization\"></i>                \n                <ul class=\"roles\"></ul>\n            </div>\n            <div> \n                <div class=\"name\">\n                    <label class=\"label\">".concat(translate$9('admin.organization.name'), "</label>\n                    <label class=\"value\"></label>\n                </div>\n                <div class=\"okpf\">\n                    <label class=\"label\">").concat(translate$9('admin.organization.okpf'), "</label>\n                    <label class=\"value\"></label>\n                </div>\n                <div class=\"inn\">\n                    <label class=\"label\">").concat(translate$9('admin.organization.inn'), "</label>\n                    <label class=\"value\"></label>\n                </div>\n                <div class=\"ogrn\">\n                    <label class=\"label\">").concat(translate$9('admin.organization.ogrn'), "</label>\n                    <label class=\"value\"></label>\n                </div>\n                <div class=\"address\">\n                    <label class=\"label\">").concat(translate$9('admin.organization.address'), "</label>\n                    <label class=\"value\"></label>\n                </div>                                    \n            </div>");
+    _this._rolesContainer = _this.content.querySelector('.roles');
+    _this._name = _this.content.querySelector('.name .value');
+    _this._okpf = _this.content.querySelector('.okpf .value');
+    _this._inn = _this.content.querySelector('.inn .value');
+    _this._ogrn = _this.content.querySelector('.ogrn .value');
+    _this._address = _this.content.querySelector('.address .value');
+    _this.footer.innerHTML = "<button class=\"save\">".concat(translate$9('admin.organization.save'), "</button>\n        <button class=\"cancel\">").concat(translate$9('admin.organization.cancel'), "</button>");
+
+    var btnSave = _this.footer.querySelector('.save');
+
+    btnSave.addEventListener('click', function (e) {
+      var event = document.createEvent('Event');
+      event.initEvent('save', false, false);
+      event.detail = _this.role;
+
+      _this.dispatchEvent(event);
+    });
+
+    var btnCancel = _this.footer.querySelector('.cancel');
+
+    btnCancel.addEventListener('click', function (e) {
+      var event = document.createEvent('Event');
+      event.initEvent('close', false, false);
+
+      _this.dispatchEvent(event);
+    });
+    return _this;
+  }
+
+  _createClass(Organization, [{
+    key: "name",
+    set: function set(name) {
+      this._name.innerText = name;
+    }
+  }, {
+    key: "okpf",
+    set: function set(okpf) {
+      this._okpf.innerText = okpf;
+    }
+  }, {
+    key: "inn",
+    set: function set(inn) {
+      this._inn.innerText = inn;
+    }
+  }, {
+    key: "ogrn",
+    set: function set(ogrn) {
+      this._ogrn.innerText = ogrn;
+    }
+  }, {
+    key: "address",
+    set: function set(address) {
+      this._address.innerText = address;
+    }
+  }, {
+    key: "role",
+    get: function get() {
+      return this._role;
+    },
+    set: function set(role) {
+      var rows = this._rolesContainer.querySelectorAll('li');
+
+      this._role = parseInt(role, 10);
+
+      var _iterator = _createForOfIteratorHelper(rows),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var row = _step.value;
+          var id = parseInt(row.getAttribute('data-id'), 10);
+          var icon = row.querySelector('.scanex-forestry-admin-icon');
+
+          if (id === this._role) {
+            icon.classList.add('active');
+          } else {
+            icon.classList.remove('active');
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    }
+  }, {
+    key: "roles",
+    set: function set(roles) {
+      var _this2 = this;
+
+      this._roles = roles;
+      this._rolesContainer.innerHTML = Object.keys(this._roles).map(function (id) {
+        return "<li data-id=\"".concat(id, "\">\n                <i class=\"scanex-forestry-admin-icon box\"></i>\n                <label>").concat(_this2._roles[id], "</label>\n            </li>");
+      }).join('');
+
+      var rows = this._rolesContainer.querySelectorAll('li');
+
+      var _iterator2 = _createForOfIteratorHelper(rows),
+          _step2;
+
+      try {
+        var _loop = function _loop() {
+          var row = _step2.value;
+          row.addEventListener('click', function (e) {
+            _this2.role = row.getAttribute('data-id');
+          });
+        };
+
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          _loop();
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+    }
+  }]);
+
+  return Organization;
+}(Dialog);
+
+var translate$a = T.getText.bind(T);
+
+var Organization$1 = /*#__PURE__*/function (_Controller) {
+  _inherits(Organization$1, _Controller);
+
+  var _super = _createSuper(Organization$1);
+
+  function Organization$1(_ref) {
+    var _this;
+
+    var container = _ref.container,
+        notify = _ref.notify,
+        loading = _ref.loading,
+        path = _ref.path;
+
+    _classCallCheck(this, Organization$1);
+
+    _this = _super.call(this, {
+      notify: notify,
+      loading: loading
+    });
+    _this._path = path;
+    _this._container = container;
+    return _this;
+  }
+
+  _createClass(Organization$1, [{
+    key: "open",
+    value: function () {
+      var _open = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id) {
+        var _this2 = this;
+
+        var rs, roles, data, address, fullName, _id, inn, number, ogrn, okpof, roleID, view;
+
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.httpGet("".concat(this._path, "/UserPermissionManager/GetRolesList"), {
+                  restrictRoles: true
+                });
+
+              case 2:
+                rs = _context2.sent;
+
+                if (!(rs && rs.rolesList)) {
+                  _context2.next = 9;
+                  break;
+                }
+
+                roles = Object.keys(rs.rolesList).reduce(function (a, id) {
+                  a[id] = rs.rolesList[id];
+                  return a;
+                }, {});
+                _context2.next = 7;
+                return this.httpGet("".concat(this._path, "/BussinessEntityManager/GetBussinesEntity"), {
+                  BussinesEntityID: id
+                });
+
+              case 7:
+                data = _context2.sent;
+
+                if (data) {
+                  address = data.address, fullName = data.fullName, _id = data.id, inn = data.inn, number = data.number, ogrn = data.ogrn, okpof = data.okpof, roleID = data.roleID;
+                  view = new Organization(_id);
+                  view.on('close', function () {
+                    view.destroy();
+                    view = null;
+                  });
+                  view.on('save', /*#__PURE__*/function () {
+                    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+                      var roleID, ok, event;
+                      return regeneratorRuntime.wrap(function _callee$(_context) {
+                        while (1) {
+                          switch (_context.prev = _context.next) {
+                            case 0:
+                              view.destroy();
+                              view = null;
+                              roleID = e.detail;
+                              _context.next = 5;
+                              return _this2.httpPost("".concat(_this2._path, "/BussinessEntityManager/UpdateBussinesEntity"), {
+                                bussinesEntityID: _id,
+                                roleID: roleID
+                              }, false);
+
+                            case 5:
+                              ok = _context.sent;
+
+                              if (ok) {
+                                _this2._notify.info(translate$a('info.ok'), NOTIFY_TIMEOUT);
+
+                                event = document.createEvent('Event');
+                                event.initEvent('updated', false, false);
+
+                                _this2.dispatchEvent(event);
+                              }
+
+                            case 7:
+                            case "end":
+                              return _context.stop();
+                          }
+                        }
+                      }, _callee);
+                    }));
+
+                    return function (_x2) {
+                      return _ref2.apply(this, arguments);
+                    };
+                  }());
+                  view.name = fullName;
+                  view.address = address;
+                  view.inn = inn;
+                  view.okpf = okpof;
+                  view.ogrn = ogrn;
+                  view.roles = roles;
+                  view.role = roleID;
+                }
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function open(_x) {
+        return _open.apply(this, arguments);
+      }
+
+      return open;
+    }()
+  }]);
+
+  return Organization$1;
 }(Controller);
 
 // call something on iterator step with safe closing on error
@@ -15592,7 +16171,7 @@ T$2.addText('rus', {
     info: 'Информация'
   }
 });
-var translate$8 = T$2.getText.bind(T$2);
+var translate$b = T$2.getText.bind(T$2);
 
 var delay = function delay(timeout) {
   return new Promise(function (resolve) {
@@ -15642,7 +16221,7 @@ var Notification = /*#__PURE__*/function (_EventTarget) {
       el.classList.add('noselect');
       el.classList.add('notify-red');
       el.classList.add('opening');
-      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-error\"></i>\n                </td>            \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$8('notify.error'), "</label>                \n                    <div class=\"message\">").concat(text, "</div>\n                </td>\n                <td>            \n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
+      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-error\"></i>\n                </td>            \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$b('notify.error'), "</label>                \n                    <div class=\"message\">").concat(text, "</div>\n                </td>\n                <td>            \n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
 
       this._container.appendChild(el);
 
@@ -15670,7 +16249,7 @@ var Notification = /*#__PURE__*/function (_EventTarget) {
       el.classList.add('noselect');
       el.classList.add('notify-orange');
       el.classList.add('opening');
-      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-warn\"></i>\n                </td>    \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$8('notify.warn'), "</label>\n                    <div class=\"message\">").concat(text, "</div>    \n                </td>            \n                <td>\n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
+      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-warn\"></i>\n                </td>    \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$b('notify.warn'), "</label>\n                    <div class=\"message\">").concat(text, "</div>    \n                </td>            \n                <td>\n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
 
       this._container.appendChild(el);
 
@@ -15698,7 +16277,7 @@ var Notification = /*#__PURE__*/function (_EventTarget) {
       el.classList.add('noselect');
       el.classList.add('notify-green');
       el.classList.add('opening');
-      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-info\"></i>\n                </td>            \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$8('notify.info'), "</label>                    \n                    <div class=\"message\">").concat(text, "</div>    \n                </td>                                \n                <td>\n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
+      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-info\"></i>\n                </td>            \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$b('notify.info'), "</label>                    \n                    <div class=\"message\">").concat(text, "</div>    \n                </td>                                \n                <td>\n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
 
       this._container.appendChild(el);
 
@@ -15863,6 +16442,60 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
       };
     }());
 
+    _this._organization = new Organization$1({
+      container: _this._container,
+      notify: _this._notify,
+      loading: _this._loading,
+      path: path
+    });
+
+    _this._organization.on('updated', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _this.organizations();
+
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    })));
+
+    _this._organizations = new Organizations({
+      container: _this._container,
+      notify: _this._notify,
+      loading: _this._loading,
+      path: path
+    });
+
+    _this._organizations.on('click', /*#__PURE__*/function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(e) {
+        var id;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                id = e.detail;
+                _context4.next = 3;
+                return _this._organization.open(id);
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      return function (_x2) {
+        return _ref5.apply(this, arguments);
+      };
+    }());
+
     return _this;
   }
 
@@ -15874,20 +16507,20 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
   }, {
     key: "roles",
     value: function () {
-      var _roles = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _roles = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context3.next = 2;
+                _context5.next = 2;
                 return this._roles.open();
 
               case 2:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       }));
 
       function roles() {
@@ -15899,20 +16532,20 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
   }, {
     key: "users",
     value: function () {
-      var _users = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _users = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context4.next = 2;
+                _context6.next = 2;
                 return this._users.open();
 
               case 2:
               case "end":
-                return _context4.stop();
+                return _context6.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee6, this);
       }));
 
       function users() {
@@ -15920,6 +16553,31 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
       }
 
       return users;
+    }()
+  }, {
+    key: "organizations",
+    value: function () {
+      var _organizations = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return this._organizations.open();
+
+              case 2:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function organizations() {
+        return _organizations.apply(this, arguments);
+      }
+
+      return organizations;
     }()
   }]);
 
