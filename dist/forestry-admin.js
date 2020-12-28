@@ -4904,6 +4904,103 @@ var Pager = /*#__PURE__*/function (_Component) {
   return Pager;
 }(Component);
 
+var Spinner = /*#__PURE__*/function (_Component) {
+  _inherits(Spinner, _Component);
+
+  var _super = _createSuper(Spinner);
+
+  function Spinner(container) {
+    var _this;
+
+    _classCallCheck(this, Spinner);
+
+    _this = _super.call(this, container);
+    _this._value = 0;
+    _this._min = 0;
+    _this._max = 0;
+
+    _this._up.addEventListener('click', _this.increment.bind(_assertThisInitialized(_this)));
+
+    _this._down.addEventListener('click', _this.decrement.bind(_assertThisInitialized(_this)));
+
+    _this._input.addEventListener('change', _this._onChange.bind(_assertThisInitialized(_this)));
+
+    return _this;
+  }
+
+  _createClass(Spinner, [{
+    key: "_onChange",
+    value: function _onChange(e) {
+      e.stopPropagation();
+      this.value = parseInt(this._input.value, 10);
+    }
+  }, {
+    key: "_validate",
+    value: function _validate(value) {
+      return !isNaN(value) && this._min <= value && value <= this._max;
+    }
+  }, {
+    key: "increment",
+    value: function increment(e) {
+      e.stopPropagation();
+      this.value = this._value + 1;
+    }
+  }, {
+    key: "decrement",
+    value: function decrement(e) {
+      e.stopPropagation();
+      this.value = this._value - 1;
+    }
+  }, {
+    key: "_render",
+    value: function _render(element) {
+      element.classList.add('scanex-component-spinner');
+      element.innerHTML = "<input type=\"text\" value=\"0\"/>\n        <div class=\"buttons\">\n            <i class=\"scanex-component-icon spinner-up\"></i>            \n            <i class=\"scanex-component-icon spinner-down\"></i>\n        </div>";
+      this._input = element.querySelector('input');
+      this._up = element.querySelector('.spinner-up');
+      this._down = element.querySelector('.spinner-down');
+    }
+  }, {
+    key: "value",
+    get: function get() {
+      return this._value;
+    },
+    set: function set(value) {
+      if (this._validate(value)) {
+        this._value = value;
+        var event = document.createEvent('Event');
+        event.initEvent("change", false, false);
+        event.detail = this._value;
+        this.dispatchEvent(event);
+      }
+
+      this._input.value = this._value.toString();
+    }
+  }, {
+    key: "min",
+    get: function get() {
+      return this._min;
+    },
+    set: function set(min) {
+      if (!isNaN(min)) {
+        this._min = min;
+      }
+    }
+  }, {
+    key: "max",
+    get: function get() {
+      return this._max;
+    },
+    set: function set(max) {
+      if (!isNaN(max) && this._min <= max) {
+        this._max = max;
+      }
+    }
+  }]);
+
+  return Spinner;
+}(Component);
+
 // `thisNumberValue` abstract operation
 // https://tc39.github.io/ecma262/#sec-thisnumbervalue
 var thisNumberValue = function (value) {
@@ -12382,7 +12479,8 @@ var Users = /*#__PURE__*/function (_Controller) {
     var container = _ref.container,
         notify = _ref.notify,
         loading = _ref.loading,
-        path = _ref.path;
+        path = _ref.path,
+        pageSize = _ref.pageSize;
 
     _classCallCheck(this, Users);
 
@@ -12392,7 +12490,7 @@ var Users = /*#__PURE__*/function (_Controller) {
     });
     _this._path = path;
     _this._container = container;
-    _this._pageSize = 9;
+    _this._pageSize = pageSize;
     return _this;
   }
 
@@ -12905,7 +13003,7 @@ var View$2 = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       element.classList.add('scanex-forestry-admin-organizations');
-      element.innerHTML = "<div class=\"filter\">\n            <div class=\"name\">\n                <i class=\"scanex-forestry-admin-icon search\"></i>\n                <input type=\"text\" placeholder=\"".concat(translate$8('admin.organizations.organizationName'), "\">\n                <button>").concat(translate$8('admin.organizations.search'), "</button>\n            </div>\n            <div class=\"role-inn-ogrn\">\n                <div class=\"role\">\n                    <label>").concat(translate$8('admin.organizations.role'), "</label>                    \n                    <select></select>                    \n                </div>\n                <div class=\"inn\">\n                    <label>").concat(translate$8('admin.organizations.inn'), "</label>\n                    <input type=\"text\">\n                </div>                \n                <div class=\"ogrn\">                \n                    <label>").concat(translate$8('admin.organizations.ogrn'), "</label>\n                    <input type=\"text\">\n                </div>                \n            </div>\n        </div>        \n        <div class=\"content\">\n            <div class=\"header\">\n                <div data-id=\"id\">").concat(translate$8('admin.organizations.id'), "</div>\n                <div data-id=\"okpf\">").concat(translate$8('admin.organizations.okpf'), "</div>\n                <div data-id=\"name\">").concat(translate$8('admin.organizations.name'), "</div>\n                <div data-id=\"role\">").concat(translate$8('admin.organizations.role'), "</div>\n                <div data-id=\"inn\">").concat(translate$8('admin.organizations.inn'), "</div>\n                <div data-id=\"ogrn\">").concat(translate$8('admin.organizations.ogrn'), "</div>\n            </div>\n            <div class=\"body\"></div>\n        </div>        \n        <div class=\"pager\"></div>");
+      element.innerHTML = "<div class=\"filter\">\n            <div class=\"name\">\n                <i class=\"scanex-forestry-admin-icon search\"></i>\n                <input type=\"text\" placeholder=\"".concat(translate$8('admin.organizations.organizationName'), "\">\n                <button>").concat(translate$8('admin.organizations.search'), "</button>\n            </div>\n            <div class=\"role-inn-ogrn\">\n                <div class=\"role\">\n                    <label>").concat(translate$8('admin.organizations.role'), "</label>                    \n                    <select></select>                    \n                </div>\n                <div class=\"inn\">\n                    <label>").concat(translate$8('admin.organizations.inn'), "</label>\n                    <input type=\"text\">\n                </div>                \n                <div class=\"ogrn\">                \n                    <label>").concat(translate$8('admin.organizations.ogrn'), "</label>\n                    <input type=\"text\">\n                </div>                \n            </div>\n        </div>        \n        <div class=\"content\">\n            <div class=\"header\">\n                <div data-id=\"id\">").concat(translate$8('admin.organizations.id'), "</div>\n                <div data-id=\"okpf\">").concat(translate$8('admin.organizations.okpf'), "</div>\n                <div data-id=\"name\">").concat(translate$8('admin.organizations.name'), "</div>\n                <div data-id=\"role\">").concat(translate$8('admin.organizations.role'), "</div>\n                <div data-id=\"inn\">").concat(translate$8('admin.organizations.inn'), "</div>\n                <div data-id=\"ogrn\">").concat(translate$8('admin.organizations.ogrn'), "</div>\n            </div>\n            <div class=\"body scrollable\"></div>\n        </div> \n        <div class=\"footer\">       \n            <div class=\"pager\"></div>\n        </div>");
       var btnSearch = element.querySelector('.name button');
       btnSearch.addEventListener('click', function (e) {
         e.stopPropagation();
@@ -13026,7 +13124,8 @@ var Organizations = /*#__PURE__*/function (_Controller) {
     var container = _ref.container,
         notify = _ref.notify,
         loading = _ref.loading,
-        path = _ref.path;
+        path = _ref.path,
+        pageSize = _ref.pageSize;
 
     _classCallCheck(this, Organizations);
 
@@ -13036,7 +13135,7 @@ var Organizations = /*#__PURE__*/function (_Controller) {
     });
     _this._path = path;
     _this._container = container;
-    _this._pageSize = 9;
+    _this._pageSize = pageSize;
     return _this;
   }
 
@@ -13438,6 +13537,195 @@ var Organization$1 = /*#__PURE__*/function (_Controller) {
   }]);
 
   return Organization$1;
+}(Controller);
+
+T.addText('rus', {
+  admin: {
+    eventlog: {
+      versionCounts: 'Глубина хранения',
+      shelfLife: 'Срок хранения'
+    }
+  }
+});
+
+var translate$b = T.getText.bind(T);
+
+var View$3 = /*#__PURE__*/function (_Component) {
+  _inherits(View, _Component);
+
+  var _super = _createSuper(View);
+
+  function View(container, _ref) {
+    var shelfLife = _ref.shelfLife,
+        versionCounts = _ref.versionCounts;
+
+    _classCallCheck(this, View);
+
+    return _super.call(this, container, {
+      shelfLife: shelfLife,
+      versionCounts: versionCounts
+    });
+  }
+
+  _createClass(View, [{
+    key: "_render",
+    value: function _render(element, _ref2) {
+      var _this = this;
+
+      var shelfLife = _ref2.shelfLife,
+          versionCounts = _ref2.versionCounts;
+      element.classList.add('scanex-forestry-admin-eventlog');
+      element.innerHTML = "<div>\n\t\t\t<div class=\"raw\">\n\t\t\t\t<label>".concat(translate$b('admin.eventlog.versionCounts'), "</label>\n\t\t\t\t<div class=\"versionCounts\"></div>\n\t\t\t</div>                \n\t\t\t<div class=\"raw\">\n\t\t\t\t<label>").concat(translate$b('admin.eventlog.shelfLife'), "</label>\n\t\t\t\t<div class=\"shelfLife\"></div>\n\t\t\t</div>                \n        </div>\n\t\t<div class=\"footer\">\n\t\t\t<button class=\"save\">").concat(translate$b('admin.organization.save'), "</button>\n\t\t\t<button class=\"cancel\">").concat(translate$b('admin.organization.cancel'), "</button>\n\t\t</div>\n\t\t");
+      element.querySelector('button.save').addEventListener('click', function (e) {
+        e.stopPropagation();
+
+        _this._save();
+      });
+      element.querySelector('button.cancel').addEventListener('click', function (e) {
+        e.stopPropagation();
+
+        _this._cancel();
+      });
+      this._versionCounts = new Spinner(element.querySelector('.versionCounts'));
+      this._versionCounts.min = 1;
+      this._versionCounts.max = 20;
+      this._versionCounts.value = versionCounts;
+      this._shelfLife = new Spinner(element.querySelector('.shelfLife'));
+      this._shelfLife.min = 1;
+      this._shelfLife.max = 12;
+      this._shelfLife.value = shelfLife;
+    }
+  }, {
+    key: "_save",
+    value: function _save() {
+      var event = document.createEvent('Event');
+      event.initEvent('save', false, false);
+      event.detail = {
+        shelfLife: this._shelfLife.value,
+        versionCounts: this._versionCounts.value
+      };
+      this.dispatchEvent(event);
+    }
+  }, {
+    key: "_cancel",
+    value: function _cancel() {
+      var event = document.createEvent('Event');
+      event.initEvent('cancel', false, false);
+      event.detail = {};
+      this.dispatchEvent(event);
+    }
+  }]);
+
+  return View;
+}(Component);
+
+var translate$c = T.getText.bind(T);
+
+var Eventlog = /*#__PURE__*/function (_Controller) {
+  _inherits(Eventlog, _Controller);
+
+  var _super = _createSuper(Eventlog);
+
+  function Eventlog(_ref) {
+    var _this;
+
+    var container = _ref.container,
+        notify = _ref.notify,
+        loading = _ref.loading,
+        path = _ref.path;
+
+    _classCallCheck(this, Eventlog);
+
+    _this = _super.call(this, {
+      notify: notify,
+      loading: loading
+    });
+    _this._notify = notify;
+    _this._path = path;
+    _this._container = container;
+    _this._shelfLife = 2;
+    _this._versionCounts = 3;
+    return _this;
+  }
+
+  _createClass(Eventlog, [{
+    key: "open",
+    value: function () {
+      var _open = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        var _this2 = this;
+
+        var data;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.httpGet("".concat(this._path, "/Log/GetLogsConstants"));
+
+              case 2:
+                data = _context2.sent;
+                this._container.innerHTML = '';
+                this._view = new View$3(this._container, data);
+
+                this._view.on('save', /*#__PURE__*/function () {
+                  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+                    var ok, event;
+                    return regeneratorRuntime.wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            _context.next = 2;
+                            return _this2.httpPost("".concat(_this2._path, "/Log/UpdateLogsConstants"), e.detail);
+
+                          case 2:
+                            ok = _context.sent;
+
+                            if (!ok) {
+                              event = document.createEvent('Event');
+                              event.initEvent('eventlog:save', false, false);
+
+                              _this2.dispatchEvent(event);
+
+                              _this2._notify.info(translate$c('info.ok'), NOTIFY_TIMEOUT);
+                            }
+
+                          case 4:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  }));
+
+                  return function (_x) {
+                    return _ref2.apply(this, arguments);
+                  };
+                }());
+
+                this._view.on('cancel', function (e) {
+                  var event = document.createEvent('Event');
+                  event.initEvent('close', false, false);
+
+                  _this2.dispatchEvent(event);
+                });
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function open() {
+        return _open.apply(this, arguments);
+      }
+
+      return open;
+    }()
+  }]);
+
+  return Eventlog;
 }(Controller);
 
 // call something on iterator step with safe closing on error
@@ -16171,7 +16459,7 @@ T$2.addText('rus', {
     info: 'Информация'
   }
 });
-var translate$b = T$2.getText.bind(T$2);
+var translate$d = T$2.getText.bind(T$2);
 
 var delay = function delay(timeout) {
   return new Promise(function (resolve) {
@@ -16221,7 +16509,7 @@ var Notification = /*#__PURE__*/function (_EventTarget) {
       el.classList.add('noselect');
       el.classList.add('notify-red');
       el.classList.add('opening');
-      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-error\"></i>\n                </td>            \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$b('notify.error'), "</label>                \n                    <div class=\"message\">").concat(text, "</div>\n                </td>\n                <td>            \n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
+      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-error\"></i>\n                </td>            \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$d('notify.error'), "</label>                \n                    <div class=\"message\">").concat(text, "</div>\n                </td>\n                <td>            \n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
 
       this._container.appendChild(el);
 
@@ -16249,7 +16537,7 @@ var Notification = /*#__PURE__*/function (_EventTarget) {
       el.classList.add('noselect');
       el.classList.add('notify-orange');
       el.classList.add('opening');
-      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-warn\"></i>\n                </td>    \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$b('notify.warn'), "</label>\n                    <div class=\"message\">").concat(text, "</div>    \n                </td>            \n                <td>\n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
+      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-warn\"></i>\n                </td>    \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$d('notify.warn'), "</label>\n                    <div class=\"message\">").concat(text, "</div>    \n                </td>            \n                <td>\n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
 
       this._container.appendChild(el);
 
@@ -16277,7 +16565,7 @@ var Notification = /*#__PURE__*/function (_EventTarget) {
       el.classList.add('noselect');
       el.classList.add('notify-green');
       el.classList.add('opening');
-      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-info\"></i>\n                </td>            \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$b('notify.info'), "</label>                    \n                    <div class=\"message\">").concat(text, "</div>    \n                </td>                                \n                <td>\n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
+      el.innerHTML = "<table cellspacing=\"0\" cellpadding=\"0\">\n            <tr>\n                <td>\n                    <div></div>\n                </td>\n                <td>\n                    <i class=\"scanex-notify-icon notify-info\"></i>\n                </td>            \n                <td class=\"text\">\n                    <label class=\"title\">".concat(translate$d('notify.info'), "</label>                    \n                    <div class=\"message\">").concat(text, "</div>    \n                </td>                                \n                <td>\n                    <i class=\"scanex-notify-icon notify-close\"></i>\n                </td>\n            </tr>\n        </table>");
 
       this._container.appendChild(el);
 
@@ -16383,6 +16671,7 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
       _this.dispatchEvent(event);
     });
 
+    var pageSize = 8;
     _this._roles = new Roles({
       container: _this._container,
       notify: _this._notify,
@@ -16393,7 +16682,8 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
       container: _this._container,
       notify: _this._notify,
       loading: _this._loading,
-      path: path
+      path: path,
+      pageSize: pageSize
     });
     _this._user = new User$1({
       container: _this._container,
@@ -16469,7 +16759,8 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
       container: _this._container,
       notify: _this._notify,
       loading: _this._loading,
-      path: path
+      path: path,
+      pageSize: pageSize
     });
 
     _this._organizations.on('click', /*#__PURE__*/function () {
@@ -16496,6 +16787,38 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
       };
     }());
 
+    _this._eventlog = new Eventlog({
+      container: _this._container,
+      notify: _this._notify,
+      loading: _this._loading,
+      path: path,
+      pageSize: pageSize
+    });
+
+    _this._eventlog.on('click', /*#__PURE__*/function () {
+      var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(e) {
+        var id;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                id = e.detail;
+                _context5.next = 3;
+                return _this._eventlog.open(id);
+
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      return function (_x3) {
+        return _ref6.apply(this, arguments);
+      };
+    }());
+
     return _this;
   }
 
@@ -16507,20 +16830,20 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
   }, {
     key: "roles",
     value: function () {
-      var _roles = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      var _roles = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                _context6.next = 2;
                 return this._roles.open();
 
               case 2:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function roles() {
@@ -16532,20 +16855,20 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
   }, {
     key: "users",
     value: function () {
-      var _users = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _users = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context6.next = 2;
+                _context7.next = 2;
                 return this._users.open();
 
               case 2:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function users() {
@@ -16557,20 +16880,20 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
   }, {
     key: "organizations",
     value: function () {
-      var _organizations = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _organizations = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context7.next = 2;
+                _context8.next = 2;
                 return this._organizations.open();
 
               case 2:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
       function organizations() {
@@ -16578,6 +16901,31 @@ var Admin = /*#__PURE__*/function (_EventTarget) {
       }
 
       return organizations;
+    }()
+  }, {
+    key: "eventlog",
+    value: function () {
+      var _eventlog = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
+                return this._eventlog.open();
+
+              case 2:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function eventlog() {
+        return _eventlog.apply(this, arguments);
+      }
+
+      return eventlog;
     }()
   }]);
 
