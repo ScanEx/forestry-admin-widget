@@ -5624,7 +5624,7 @@ T.addText('rus', {
       status: 'Статус',
       role: 'Роль',
       userRole: 'Роль пользователя',
-      dateAfter: 'Дата добавления (после)',
+      dateAfter: 'Дата добавления',
       blocked: 'Заблокирован',
       verified: 'Подтвержден',
       org: 'Организация',
@@ -12424,7 +12424,7 @@ var View$1 = /*#__PURE__*/function (_Component) {
     set: function set(users) {
       var _this4 = this;
 
-      this._content.innerHTML = "<table cellpadding=\"0\" cellspacing=\"0\">\n            <thead>\n                <tr>\n                    <th>".concat(translate$5('admin.users.id'), "</th>\n                    <th>").concat(translate$5('admin.users.name'), "</th>\n                    <th>").concat(translate$5('admin.users.date'), "</th>\n                    <th>").concat(translate$5('admin.users.status'), "</th>\n                    <th>").concat(translate$5('admin.users.org'), "</th>\n                    <th>").concat(translate$5('admin.users.role'), "</th>                    \n                </tr>\n            </thead>\n            <tbody>\n            ").concat(users.map(function (_ref2) {
+      this._content.innerHTML = "<table cellpadding=\"0\" cellspacing=\"0\">\n            <thead>\n                <tr>\n                    <th>".concat(translate$5('admin.users.id'), "</th>\n                    <th>").concat(translate$5('admin.users.name'), "</th>\n                    <th>").concat(translate$5('admin.users.date'), "</th>\n                    <th>").concat(translate$5('admin.users.status'), "</th>\n                    <th>").concat(translate$5('admin.users.org'), "</th>\n                    <th>").concat(translate$5('admin.users.role'), "</th>                    \n                </tr>\n            </thead>\n            <tbody>\n            ").concat(Array.isArray(users) && users.length && users.map(function (_ref2) {
         var userID = _ref2.userID,
             userName = _ref2.userName,
             created = _ref2.created,
