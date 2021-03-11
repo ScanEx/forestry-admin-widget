@@ -309,6 +309,165 @@
     border-bottom: 1px solid rgba(0,0,0,0.1);
     cursor: pointer;
 }
+.scanex-forestry-admin-organization {
+    background-color: #FFFFFF;
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 1160px;
+    height: 725px;
+    padding: 21px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.scanex-forestry-admin-organization ul.roles {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 32px;
+    color: #000000;
+    margin-top: 60px;
+}
+.scanex-forestry-admin-organization ul.roles li {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.scanex-forestry-admin-organization ul.roles li>* {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.scanex-forestry-admin-organization .scanex-forestry-admin-icon.organization {
+    width: 130px;
+    height: 130px;
+}
+
+.scanex-forestry-admin-organization .label,
+.scanex-forestry-admin-organization .value {    
+    display: inline-block;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 28px;
+    height: 40px;
+    vertical-align: middle;
+}
+.scanex-forestry-admin-organization .label {
+    white-space: nowrap;
+    width: 200px;    
+    color: #000000;
+    text-align: left;    
+}
+.scanex-forestry-admin-organization .value {    
+    color: rgba(0, 0, 0, 0.65);
+    width: 580px;
+    text-align: right;    
+}
+
+.scanex-forestry-admin-organization .header {
+    cursor: pointer;
+    font-family: Arial;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 40px;
+    color: #000000;
+    border-bottom: 1px solid #969595;
+    width: 100%;
+    display: block;
+    height: 60px;
+    min-height: 60px;
+    margin-bottom: 27px;
+}
+
+.scanex-forestry-admin-organization .content {
+    width: 100%;
+    padding-bottom: 43px;
+    border-bottom: 1px solid #969595;
+}
+.scanex-forestry-admin-organization .content .logo {
+    width: 300px;
+}
+.scanex-forestry-admin-organization .content .logo > * {
+    display: block;
+    margin-left: 90px;
+}
+.scanex-forestry-admin-organization .content > * {
+    display: inline-block;
+    vertical-align: top;
+}
+.scanex-component.scanex-component-dialog.scanex-forestry-admin-organization .footer {
+    position: absolute;
+    bottom: 0;
+    height: 87px;
+    min-height: 87px;
+    /*border-top: 1px solid #969595;*/
+    width: 97%;
+    box-sizing: border-box;
+    left: 17px;
+    right: 17px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+}
+.scanex-forestry-admin-organization .footer button {
+    background: #067A57;
+    border-radius: 24px;
+    height: 48px;
+    min-height: 48px;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    width: 227px;
+    min-width: 227px;
+    cursor: pointer;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 20px;
+    color: #FFF;
+}
+.scanex-forestry-admin-organization .footer button.save {    
+    margin: 0 23px;
+}
+
+.scanex-forestry-admin-organization .users {
+    margin-top: 40px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B707B;
+    opacity: 0.65;
+    font-family: 'Open Sans';
+    width: 100%;
+}
+
+.scanex-forestry-admin-organization .users table {
+    width: 100%;
+    text-align: left;
+    padding: 0 23px;
+}
+
+.scanex-forestry-admin-organization .users table tr td {
+    font-weight: 400;
+    color: #000;
+    border-top: 10px solid #FFF;
+}
+
+
+
 .scanex-forestry-admin-users .content {
     height: calc(100vh - 80px);
     clear: both;
@@ -1305,169 +1464,14 @@ i.scanex-component-icon.spinner-down {
     margin-top: 20px;
     margin-bottom: 0;
 }
-.scanex-forestry-admin-organization {
-    background-color: #FFFFFF;
-    position: fixed;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%);
-    width: 1160px;
-    height: 725px;
-    padding: 21px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-.scanex-forestry-admin-organization ul.roles {
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 32px;
-    color: #000000;
-    margin-top: 60px;
-}
-.scanex-forestry-admin-organization ul.roles li {
-    cursor: pointer;
-    white-space: nowrap;
+
+.scanex-forestry-admin-eventlog .scanex-component.scanex-component-pager {
+    margin-top: 10px;
 }
 
-.scanex-forestry-admin-organization ul.roles li>* {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.scanex-forestry-admin-organization .scanex-forestry-admin-icon.organization {
-    width: 130px;
-    height: 130px;
-}
-
-.scanex-forestry-admin-organization .label,
-.scanex-forestry-admin-organization .value {    
-    display: inline-block;
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 28px;
-    height: 40px;
-    vertical-align: middle;
-}
-.scanex-forestry-admin-organization .label {
-    white-space: nowrap;
-    width: 200px;    
-    color: #000000;
-    text-align: left;    
-}
-.scanex-forestry-admin-organization .value {    
-    color: rgba(0, 0, 0, 0.65);
-    width: 580px;
-    text-align: right;    
-}
-
-.scanex-forestry-admin-organization .header {
-    cursor: pointer;
-    font-family: Arial;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 32px;
-    line-height: 40px;
-    color: #000000;
-    border-bottom: 1px solid #969595;
-    width: 100%;
-    display: block;
-    height: 60px;
-    min-height: 60px;
-    margin-bottom: 27px;
-}
-
-.scanex-forestry-admin-organization .content {
-    width: 100%;
-    padding-bottom: 43px;
-    border-bottom: 1px solid #969595;
-}
-.scanex-forestry-admin-organization .content .logo {
-    width: 300px;
-}
-.scanex-forestry-admin-organization .content .logo > * {
-    display: block;
-    margin-left: 90px;
-}
-.scanex-forestry-admin-organization .content > * {
-    display: inline-block;
-    vertical-align: top;
-}
-.scanex-component.scanex-component-dialog.scanex-forestry-admin-organization .footer {
-    position: absolute;
-    bottom: 0;
-    height: 87px;
-    min-height: 87px;
-    /*border-top: 1px solid #969595;*/
-    width: 97%;
-    box-sizing: border-box;
-    left: 17px;
-    right: 17px;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-start;
-    align-items: center;
-}
-.scanex-forestry-admin-organization .footer button {
-    background: #067A57;
-    border-radius: 24px;
-    height: 48px;
-    min-height: 48px;
-    border: none;
+.scanex-forestry-admin-eventlog .scanex-component.scanex-component-pager button {
     outline: none;
-    box-sizing: border-box;
-    width: 227px;
-    min-width: 227px;
-    cursor: pointer;
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 20px;
-    color: #FFF;
 }
-.scanex-forestry-admin-organization .footer button.save {    
-    margin: 0 23px;
-}
-
-.scanex-forestry-admin-organization .users {
-    margin-top: 40px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 20px;
-    color: #6B707B;
-    opacity: 0.65;
-    font-family: 'Open Sans';
-    width: 100%;
-}
-
-.scanex-forestry-admin-organization .users table {
-    width: 100%;
-    text-align: left;
-    padding: 0 23px;
-}
-
-.scanex-forestry-admin-organization .users table tr td {
-    font-weight: 400;
-    color: #000;
-    border-top: 10px solid #FFF;
-}
-
-
-
-.scanex-notify-icon.notify-close {background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='64 64 896 896' focusable='false' class='' data-icon='close' width='1em' height='1em' fill='currentColor' aria-hidden='true'%3e%3cpath d='M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z'%3e%3c/path%3e%3c/svg%3e");}
-.scanex-notify-icon.notify-error {background-image: url("data:image/svg+xml,%3csvg width='35' height='35' viewBox='0 0 35 35' fill='none' xmlns='http://www.w3.org/2000/svg'%3e %3cpath d='M17.375 26.375C17.7892 26.375 18.125 26.0392 18.125 25.625C18.125 25.2108 17.7892 24.875 17.375 24.875C16.9608 24.875 16.625 25.2108 16.625 25.625C16.625 26.0392 16.9608 26.375 17.375 26.375Z' fill='%23FF4F42'/%3e %3cpath d='M17.375 33.875C26.4877 33.875 33.875 26.4877 33.875 17.375C33.875 8.2623 26.4877 0.875 17.375 0.875C8.2623 0.875 0.875 8.2623 0.875 17.375C0.875 26.4877 8.2623 33.875 17.375 33.875Z' stroke='%23FF4F42' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M17.375 8.375V20.375' stroke='%23FF4F42' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M17.375 26.375C17.7892 26.375 18.125 26.0392 18.125 25.625C18.125 25.2108 17.7892 24.875 17.375 24.875C16.9608 24.875 16.625 25.2108 16.625 25.625C16.625 26.0392 16.9608 26.375 17.375 26.375Z' stroke='%23FF4F42' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3c/svg%3e");}
-.scanex-notify-icon.notify-info {background-image: url("data:image/svg+xml,%3csvg width='33' height='32' viewBox='0 0 33 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3e %3cpath d='M30.35 12.4C30.725 13.675 30.875 14.95 30.875 16.375C30.875 24.625 24.125 31.375 15.875 31.375C7.625 31.375 0.875 24.625 0.875 16.375C0.875 8.125 7.625 1.375 15.875 1.375C18.8 1.375 21.5 2.2 23.75 3.625' stroke='%2339BC82' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M9.875 13.375L15.875 19.375L32.375 2.875' stroke='%2339BC82' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3c/svg%3e");}
-.scanex-notify-icon.notify-warn {background-image: url("data:image/svg+xml,%3csvg width='35' height='32' viewBox='0 0 35 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3e %3cpath d='M10.9998 21.6251L13.8161 27.8456C14.3583 29.0613 13.8131 30.4871 12.5973 31.0293C11.3816 31.5716 9.95581 31.0263 9.41356 29.8106L3.9873 17.6523' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M23.375 25.375L11.375 17.875H5.375C2.8895 17.875 0.875 15.8605 0.875 13.375C0.875 10.8895 2.8895 8.875 5.375 8.875H11.375L23.375 1.375V25.375Z' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M30.875 13.375H33.875' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M29.0664 6.625L31.6652 5.125' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M29.0664 20.125L31.6652 21.625' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M6.875 8.875V17.875' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3c/svg%3e");}
 @keyframes notify-opening {
     from {width: 0px;}
     to {width: 300px;}
@@ -1577,6 +1581,10 @@ i.scanex-component-icon.spinner-down {
     height: 35px;
     margin: 0px 20px 0px 20px;
 }
+.scanex-notify-icon.notify-close {background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='64 64 896 896' focusable='false' class='' data-icon='close' width='1em' height='1em' fill='currentColor' aria-hidden='true'%3e%3cpath d='M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z'%3e%3c/path%3e%3c/svg%3e");}
+.scanex-notify-icon.notify-error {background-image: url("data:image/svg+xml,%3csvg width='35' height='35' viewBox='0 0 35 35' fill='none' xmlns='http://www.w3.org/2000/svg'%3e %3cpath d='M17.375 26.375C17.7892 26.375 18.125 26.0392 18.125 25.625C18.125 25.2108 17.7892 24.875 17.375 24.875C16.9608 24.875 16.625 25.2108 16.625 25.625C16.625 26.0392 16.9608 26.375 17.375 26.375Z' fill='%23FF4F42'/%3e %3cpath d='M17.375 33.875C26.4877 33.875 33.875 26.4877 33.875 17.375C33.875 8.2623 26.4877 0.875 17.375 0.875C8.2623 0.875 0.875 8.2623 0.875 17.375C0.875 26.4877 8.2623 33.875 17.375 33.875Z' stroke='%23FF4F42' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M17.375 8.375V20.375' stroke='%23FF4F42' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M17.375 26.375C17.7892 26.375 18.125 26.0392 18.125 25.625C18.125 25.2108 17.7892 24.875 17.375 24.875C16.9608 24.875 16.625 25.2108 16.625 25.625C16.625 26.0392 16.9608 26.375 17.375 26.375Z' stroke='%23FF4F42' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3c/svg%3e");}
+.scanex-notify-icon.notify-info {background-image: url("data:image/svg+xml,%3csvg width='33' height='32' viewBox='0 0 33 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3e %3cpath d='M30.35 12.4C30.725 13.675 30.875 14.95 30.875 16.375C30.875 24.625 24.125 31.375 15.875 31.375C7.625 31.375 0.875 24.625 0.875 16.375C0.875 8.125 7.625 1.375 15.875 1.375C18.8 1.375 21.5 2.2 23.75 3.625' stroke='%2339BC82' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M9.875 13.375L15.875 19.375L32.375 2.875' stroke='%2339BC82' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3c/svg%3e");}
+.scanex-notify-icon.notify-warn {background-image: url("data:image/svg+xml,%3csvg width='35' height='32' viewBox='0 0 35 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3e %3cpath d='M10.9998 21.6251L13.8161 27.8456C14.3583 29.0613 13.8131 30.4871 12.5973 31.0293C11.3816 31.5716 9.95581 31.0263 9.41356 29.8106L3.9873 17.6523' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M23.375 25.375L11.375 17.875H5.375C2.8895 17.875 0.875 15.8605 0.875 13.375C0.875 10.8895 2.8895 8.875 5.375 8.875H11.375L23.375 1.375V25.375Z' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M30.875 13.375H33.875' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M29.0664 6.625L31.6652 5.125' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M29.0664 20.125L31.6652 21.625' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3cpath d='M6.875 8.875V17.875' stroke='%23E8A700' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3e %3c/svg%3e");}
 @charset "UTF-8";
 
 /*!
@@ -1855,95 +1863,6 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 .scanex-component-form > table > tbody > tr > td:first-child > label {
     margin-right: 10px;
 }
-.scanex-component.scanex-component-sidebar > * {
-    float: left;
-}
-.scanex-component-dialog {
-    position: absolute;    
-    z-index: 10000;    
-}
-.scanex-component-dialog > .header,
-.scanex-component-dialog > .content,
-.scanex-component-dialog > .footer {
-    background-color: #FFFFFF;
-}
-.scanex-component-dialog > .header {    
-    cursor: pointer;    
-}
-.scanex-component-dialog > .header > .header-buttons {
-    float: right;
-}
-.scanex-component-dialog > .footer {
-    text-align: center;
-}
-.scanex-component-dialog .hidden {
-    display: none;
-}
-.scanex-dialog-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    top: 0px;
-    left: 0px;
-    background-color: #000000;
-    opacity: 0.5;
-    z-index: 9999;    
-}
-.scanex-component-tabs > .tabs > *,
-.scanex-component-tabs > .panels > * {
-    float: left;
-}
-.scanex-component-tabs > .panels {
-    clear: both;
-    position: relative;
-}
-.scanex-component-tabs > .panels > .panel {
-    position: absolute;    
-}
-.scanex-component-tabs > .panels > .hidden {
-    visibility: hidden;
-}
-.scanex-component-menu {
-    position: relative;
-}
-.scanex-component-menu > .scanex-menu-root {
-    position: absolute;
-    white-space: nowrap;
-    background-color: #ffffff;
-}
-.scanex-component-menu .hidden {
-    display: none;
-}
-.scanex-component-menu > .scanex-menu-group > .scanex-menu-group-header > .icon {    
-    display: inline-block;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-}
-.scanex-component-spinner > * {
-    display: inline-block;
-    vertical-align: middle;
-}
-.scanex-component-spinner input {
-    text-align: center;
-}
-.scanex-component-spinner .buttons .scanex-component-icon {
-    display: block;
-    cursor: pointer;    
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 12px;
-    height: 8px;
-}
-.scanex-component-spinner .buttons .scanex-component-icon.spinner-up {
-    margin-bottom: 1px;
-    border-bottom: 1px solid;
-}
-.scanex-component-spinner .buttons .scanex-component-icon.spinner-down {
-    margin-top: 1px;
-    border-top: 1px solid;
-}
 .scanex-component-pager input[type=text],
 .scanex-component-pager button {    
     font-family: sans-serif;
@@ -1977,8 +1896,132 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 .scanex-component-pager input[type=text] {
     border: 1px solid #6B707B;
 }
+.scanex-component-tabs > .tabs > *,
+.scanex-component-tabs > .panels > * {
+    float: left;
+}
+.scanex-component-tabs > .panels {
+    clear: both;
+    position: relative;
+}
+.scanex-component-tabs > .panels > .panel {
+    position: absolute;    
+}
+.scanex-component-tabs > .panels > .hidden {
+    visibility: hidden;
+}
+.scanex-component-spinner > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.scanex-component-spinner input {
+    text-align: center;
+}
+.scanex-component-spinner .buttons .scanex-component-icon {
+    display: block;
+    cursor: pointer;    
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 8px;
+}
+.scanex-component-spinner .buttons .scanex-component-icon.spinner-up {
+    margin-bottom: 1px;
+    border-bottom: 1px solid;
+}
+.scanex-component-spinner .buttons .scanex-component-icon.spinner-down {
+    margin-top: 1px;
+    border-top: 1px solid;
+}
+.scanex-component-menu {
+    position: relative;
+}
+.scanex-component-menu > .scanex-menu-root {
+    position: absolute;
+    white-space: nowrap;
+    background-color: #ffffff;
+}
+.scanex-component-menu .hidden {
+    display: none;
+}
+.scanex-component-menu > .scanex-menu-group > .scanex-menu-group-header > .icon {    
+    display: inline-block;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+}
+.scanex-component-dialog {
+    position: absolute;    
+    z-index: 10000;    
+}
+.scanex-component-dialog > .header,
+.scanex-component-dialog > .content,
+.scanex-component-dialog > .footer {
+    background-color: #FFFFFF;
+}
+.scanex-component-dialog > .header {    
+    cursor: pointer;    
+}
+.scanex-component-dialog > .header > .header-buttons {
+    float: right;
+}
+.scanex-component-dialog > .footer {
+    text-align: center;
+}
+.scanex-component-dialog .hidden {
+    display: none;
+}
+.scanex-dialog-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    background-color: #000000;
+    opacity: 0.5;
+    z-index: 9999;    
+}
+.scanex-component.scanex-component-sidebar > * {
+    float: left;
+}
+.scanex-component-sidebar-tab > div {
+    writing-mode: vertical-lr;    
+    cursor: pointer;
+}
+.scanex-component-sidebar-panel.hidden {
+    display: none;
+}
+.scanex-component-menu .scanex-menu-group .scanex-menu-group-header > * {
+    vertical-align: middle;    
+    display: inline-block;
+    cursor: pointer;
+}
+.scanex-component-menu .scanex-menu-item > * {
+    cursor: pointer;
+}
+.scanex-component-menu .scanex-menu-group .scanex-menu-group-title,
+.scanex-component-menu .scanex-menu-item .scanex-menu-item-title {    
+    margin: 5px 10px 5px 10px;
+    display: inline-block;
+}
+.scanex-component-menu .scanex-menu-group .scanex-menu-group-expander {
+    margin: 0px 5px 0px 5px;
+}
+.scanex-component-menu .scanex-menu-group .scanex-menu-group-children {
+    margin-left: 15px;
+}
 .scanex-component-slider > .slider-bar >.slider-range > .slider-tick-left {
     float: left;
+}
+.scanex-component-range > table,
+.scanex-component-range > table > tbody > tr > td:nth-child(2) {
+    width: 100%;
+}
+.scanex-component-range input {
+    width: 35px;
+    text-align: center;
+    border: none;
 }
 .scanex-component-slider {
     height: 21px;    
@@ -2013,41 +2056,6 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 }
 .scanex-component-slider > .slider-bar > .slider-range > .slider-tick-right {
     float: right;
-}
-.scanex-component-range > table,
-.scanex-component-range > table > tbody > tr > td:nth-child(2) {
-    width: 100%;
-}
-.scanex-component-range input {
-    width: 35px;
-    text-align: center;
-    border: none;
-}
-.scanex-component-sidebar-tab > div {
-    writing-mode: vertical-lr;    
-    cursor: pointer;
-}
-.scanex-component-sidebar-panel.hidden {
-    display: none;
-}
-.scanex-component-menu .scanex-menu-group .scanex-menu-group-header > * {
-    vertical-align: middle;    
-    display: inline-block;
-    cursor: pointer;
-}
-.scanex-component-menu .scanex-menu-item > * {
-    cursor: pointer;
-}
-.scanex-component-menu .scanex-menu-group .scanex-menu-group-title,
-.scanex-component-menu .scanex-menu-item .scanex-menu-item-title {    
-    margin: 5px 10px 5px 10px;
-    display: inline-block;
-}
-.scanex-component-menu .scanex-menu-group .scanex-menu-group-expander {
-    margin: 0px 5px 0px 5px;
-}
-.scanex-component-menu .scanex-menu-group .scanex-menu-group-children {
-    margin-left: 15px;
 }
 .scanex-component-slider > .slider-bar > .slider-tick.slider-tick-middle {
     float: left;
