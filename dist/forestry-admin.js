@@ -4896,8 +4896,6 @@ var Pager = /*#__PURE__*/function (_Component) {
       });
 
       this._last = element.querySelector('.last');
-      this._pages = 1;
-      this.page = 1;
     }
   }, {
     key: "page",
@@ -4905,7 +4903,7 @@ var Pager = /*#__PURE__*/function (_Component) {
       return this._page;
     },
     set: function set(page) {
-      if (Number.isInteger(page) && 1 <= page && page <= this.pages) {
+      if (Number.isInteger(page) && 1 <= page && page <= this.pages && this._page !== page) {
         this._page = page;
         this._current.value = this._page;
         var event = document.createEvent('Event');
@@ -4921,7 +4919,7 @@ var Pager = /*#__PURE__*/function (_Component) {
       return this._pages;
     },
     set: function set(pages) {
-      if (Number.isInteger(pages) && 1 <= this.page && this.page <= pages) {
+      if (pages && Number.isInteger(pages)) {
         this._pages = pages;
         this._last.innerText = pages;
       }
@@ -5297,7 +5295,8 @@ var View$3 = /*#__PURE__*/function (_Component) {
     key: "permissions",
     set: function set(permissions) {
       this._permissions = permissions;
-      this._pager.pages = Math.ceil(Object.keys(permissions).length / this._pageSize);
+      var count = Object.keys(permissions).length;
+      this._pager.pages = count && Math.floor(count / this._pageSize) + (count % this._pageSize ? 1 : 0);
       this._pager.page = 1;
     }
   }, {
@@ -12333,7 +12332,15 @@ var View$2 = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       element.classList.add('scanex-forestry-admin-users');
-      element.innerHTML = "<div class=\"filter\">\n            <div class=\"name\">\n                <input type=\"text\" placeholder=\"".concat(translate$8('admin.users.name'), "\">\n                <button class=\"search\">").concat(translate$8('admin.users.search'), "</button>\n            </div>\n            <div class=\"role-date-status\">\n                <div class=\"role\">\n                    <label>").concat(translate$8('admin.users.userRole'), "</label>\n                    <select></select>\n                </div>\n                <div class=\"date\">\n                    <label>").concat(translate$8('admin.users.dateAfter'), "</label>\n                    <input type=\"text\">\n                </div>                \n                <div class=\"status\">                \n                    <label>").concat(translate$8('admin.users.status'), "</label>\n                    <select>\n                        <option value=\"\"></option>\n                        <option value=\"blocked\">").concat(translate$8('admin.users.blocked'), "</option>\n                        <option value=\"verified\">").concat(translate$8('admin.users.verified'), "</option>\n                    </select>\n                </div>                \n            </div>\n        </div>        \n        <div class=\"content\"></div>        \n        <div class=\"pager\"></div>");
+      element.innerHTML = "<div class=\"filter\">\n            <div class=\"name\">\n                <input class=\"search-text\" type=\"text\" placeholder=\"".concat(translate$8('admin.users.name'), "\">\n                <button class=\"search\">").concat(translate$8('admin.users.search'), "</button>\n            </div>\n            <div class=\"role-date-status\">\n                <div class=\"role\">\n                    <label>").concat(translate$8('admin.users.userRole'), "</label>\n                    <select></select>\n                </div>\n                <div class=\"date\">\n                    <label>").concat(translate$8('admin.users.dateAfter'), "</label>\n                    <input type=\"text\">\n                </div>                \n                <div class=\"status\">                \n                    <label>").concat(translate$8('admin.users.status'), "</label>\n                    <select>\n                        <option value=\"\"></option>\n                        <option value=\"blocked\">").concat(translate$8('admin.users.blocked'), "</option>\n                        <option value=\"verified\">").concat(translate$8('admin.users.verified'), "</option>\n                    </select>\n                </div>                \n            </div>\n        </div>        \n        <div class=\"content\"></div>        \n        <div class=\"pager\"></div>");
+      var txtSearch = element.querySelector('.search-text');
+      txtSearch.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.stopPropagation();
+
+          _this2._change(true);
+        }
+      });
       var btnSearch = element.querySelector('.search');
       btnSearch.addEventListener('click', function (e) {
         e.stopPropagation();
@@ -12365,11 +12372,6 @@ var View$2 = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
-    key: "page",
-    set: function set(page) {
-      this._pager.page = page;
-    }
-  }, {
     key: "_change",
     value: function _change(filtered) {
       var event = document.createEvent('Event');
@@ -12394,7 +12396,12 @@ var View$2 = /*#__PURE__*/function (_Component) {
   }, {
     key: "count",
     set: function set(count) {
-      this._pager.pages = count && Math.ceil(count / this._pageSize) || 1;
+      this._pager.pages = count && Math.floor(count / this._pageSize) + (count % this._pageSize ? 1 : 0);
+    }
+  }, {
+    key: "page",
+    set: function set(page) {
+      this._pager.page = page;
     }
   }, {
     key: "roles",
@@ -12699,7 +12706,7 @@ var User$1 = /*#__PURE__*/function (_Dialog) {
 
     btnLogging.addEventListener('click', function (e) {
       var event = document.createEvent('Event');
-      event.initEvent('logging', false, false);
+      event.initEvent('eventlog:view', false, false);
       event.detail = _this._userID;
 
       _this.dispatchEvent(event);
@@ -12923,9 +12930,9 @@ var User = /*#__PURE__*/function (_Controller) {
                     return function (_x2) {
                       return _ref2.apply(this, arguments);
                     };
-                  }()).on('logging', function (e) {
+                  }()).on('eventlog:view', function (e) {
                     var event = document.createEvent('Event');
-                    event.initEvent('logging', false, false);
+                    event.initEvent('eventlog:view', false, false);
                     event.detail = e.detail;
 
                     _this2.dispatchEvent(event);
@@ -13025,6 +13032,16 @@ var View$1 = /*#__PURE__*/function (_Component) {
         _this2._change(true);
       });
       this._name = element.querySelector('.name input');
+
+      this._name.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.stopPropagation();
+
+          _this2._change(true);
+        }
+      });
+
       this._rolesContainer = element.querySelector('.role select');
       this._body = element.querySelector('.content .body');
       this._pager = new Pager(element.querySelector('.pager'));
@@ -13034,7 +13051,27 @@ var View$1 = /*#__PURE__*/function (_Component) {
       });
 
       this._inn = element.querySelector('.inn input');
+
+      this._inn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.stopPropagation();
+
+          _this2._change(true);
+        }
+      });
+
       this._ogrn = element.querySelector('.ogrn input');
+
+      this._ogrn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.stopPropagation();
+
+          _this2._change(true);
+        }
+      });
+
       this._pager.pages = 1;
     }
   }, {
@@ -13065,7 +13102,7 @@ var View$1 = /*#__PURE__*/function (_Component) {
   }, {
     key: "count",
     set: function set(count) {
-      this._pager.pages = count && Math.ceil(count / this._pageSize) || 1;
+      this._pager.pages = count && Math.floor(count / this._pageSize) + (count % this._pageSize ? 1 : 0);
     }
   }, {
     key: "roles",
@@ -13230,8 +13267,8 @@ var Organizations = /*#__PURE__*/function (_Controller) {
                     _this2.dispatchEvent(event);
                   });
 
-                  this._view.page = 1;
                   this._view.roles = rs.rolesList;
+                  this._view.page = 1;
                 }
 
               case 4:
@@ -13760,9 +13797,19 @@ var View = /*#__PURE__*/function (_Component) {
       this._rolesPager.pages = pages;
     }
   }, {
+    key: "rolePage",
+    set: function set(page) {
+      this._rolesPager.page = page;
+    }
+  }, {
     key: "infoPages",
     set: function set(pages) {
       this._infoPager.pages = pages;
+    }
+  }, {
+    key: "infoPage",
+    set: function set(page) {
+      this._infoPager.page = page;
     }
   }, {
     key: "roles",
@@ -14007,6 +14054,7 @@ var Eventlog = /*#__PURE__*/function (_Controller) {
                 if (userRolesLog) {
                   count = userRolesLog.count, userRolesLogList = userRolesLog.userRolesLogList;
                   this._view.rolePages = Math.floor(count / this._pageSize) + (count % this._pageSize ? 1 : 0);
+                  this._view.rolePage = Math.floor(start / this._pageSize) + (count % this._pageSize ? 1 : 0);
                   this._view.roles = userRolesLogList;
                 }
 
@@ -14042,6 +14090,7 @@ var Eventlog = /*#__PURE__*/function (_Controller) {
                 if (userInfoLog) {
                   count = userInfoLog.count, userLogList = userInfoLog.userLogList;
                   this._view.infoPages = Math.floor(count / this._pageSize) + (count % this._pageSize ? 1 : 0);
+                  this._view.infoPage = Math.floor(start / this._pageSize) + (count % this._pageSize ? 1 : 0);
                   this._view.info = userLogList;
                 }
 
@@ -14317,18 +14366,22 @@ var Admin = /*#__PURE__*/function (_Evented) {
           }
         }
       }, _callee);
-    }))).on('logging', /*#__PURE__*/function () {
+    }))).on('eventlog:view', /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
+        var event;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _this._user.close();
 
-                _context2.next = 3;
-                return _this.eventlog(e.detail);
+                event = document.createEvent('Event');
+                event.initEvent('eventlog:view', false, false);
+                event.detail = e.detail;
 
-              case 3:
+                _this.dispatchEvent(event);
+
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -14428,29 +14481,12 @@ var Admin = /*#__PURE__*/function (_Evented) {
       pageSize: pageSize
     });
 
-    _this._eventlog.on('click', /*#__PURE__*/function () {
-      var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(e) {
-        var id;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                id = e.detail;
-                _context6.next = 3;
-                return _this._eventlog.open(id);
+    _this._eventlog.on('eventlog:save', function (e) {
+      var event = document.createEvent('Event');
+      event.initEvent('eventlog:save', false, false);
 
-              case 3:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }));
-
-      return function (_x4) {
-        return _ref7.apply(this, arguments);
-      };
-    }());
+      _this.dispatchEvent(event);
+    });
 
     return _this;
   }
@@ -14463,20 +14499,20 @@ var Admin = /*#__PURE__*/function (_Evented) {
   }, {
     key: "roles",
     value: function () {
-      var _roles = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _roles = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context7.next = 2;
+                _context6.next = 2;
                 return this._roles.open();
 
               case 2:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee6, this);
       }));
 
       function roles() {
@@ -14488,20 +14524,20 @@ var Admin = /*#__PURE__*/function (_Evented) {
   }, {
     key: "users",
     value: function () {
-      var _users = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      var _users = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context8.next = 2;
+                _context7.next = 2;
                 return this._users.open();
 
               case 2:
               case "end":
-                return _context8.stop();
+                return _context7.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee7, this);
       }));
 
       function users() {
@@ -14513,20 +14549,20 @@ var Admin = /*#__PURE__*/function (_Evented) {
   }, {
     key: "organizations",
     value: function () {
-      var _organizations = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      var _organizations = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context9.next = 2;
+                _context8.next = 2;
                 return this._organizations.open();
 
               case 2:
               case "end":
-                return _context9.stop();
+                return _context8.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee8, this);
       }));
 
       function organizations() {
@@ -14538,23 +14574,23 @@ var Admin = /*#__PURE__*/function (_Evented) {
   }, {
     key: "eventlog",
     value: function () {
-      var _eventlog = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(userId) {
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      var _eventlog = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(userId) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context10.next = 2;
+                _context9.next = 2;
                 return this._eventlog.open(userId);
 
               case 2:
               case "end":
-                return _context10.stop();
+                return _context9.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee9, this);
       }));
 
-      function eventlog(_x5) {
+      function eventlog(_x4) {
         return _eventlog.apply(this, arguments);
       }
 
